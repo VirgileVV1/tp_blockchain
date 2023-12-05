@@ -41,7 +41,44 @@ class BlockChain:
         
         return True
         
+    def is_valid_genesis_block(self):
+        genesis_block = self.blocks[0]
+        
+        if genesis_block.index != 0:
+            print("Index du bloc invalide")
+            return False
+        
+        if genesis_block.previous_hash != None:
+            print("Hash précédent incorrect")
+            return False
+        
+        block_hash = hashlib.sha256(
+            ((str(genesis_block.index) 
+                 + genesis_block.date 
+                 + genesis_block.data 
+                 + str(genesis_block.previous_hash)).encode())).hexdigest()
+        if genesis_block.hash != block_hash:
+            print("Hash invalide")
+            return False
+        
+        return True
+    
+    def is_valid_blockchain(self):
+        if not self.is_valid_genesis_block():
+            print("Erreur, genesis block invalide")
+            return False
+        
+        for i in range(1, len(self.blocks)):
+            if not self.is_valid_block(self.blocks[i], self.blocks[i-1]):
+                return False
+            
+        return True
+        
+        
         
 block_chain = BlockChain()
 block_chain.next_block("Block de test")
 print(block_chain.blocks[-1])
+
+print(block_chain.is_valid_blockchain())
+
