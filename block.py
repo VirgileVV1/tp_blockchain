@@ -15,6 +15,7 @@ class Block:
         self.previous_hash = previous_hash
         self.date = datetime.now().strftime("%A %d %B %Y a %H:%M:%S")
         self.data = data
+        self.nonce = 0
         self.hash = self.calculate_hash()
            
     def __str__(self):
@@ -25,4 +26,17 @@ class Block:
             ((str(self.index) 
                  + self.date 
                  + self.data 
-                 + str(self.previous_hash)).encode())).hexdigest()
+                 + str(self.previous_hash)
+                 + str(self.nonce)).encode())).hexdigest()
+    
+    def solve_proof_of_work(self, difficulty = 4):
+        self.nonce = 0
+        while True: 
+            self.hash = self.calculate_hash()
+            valid = self.hash[0 : difficulty]
+
+            if valid == "".join(['0'] * (difficulty)):
+                print("nonce : " + str(self.nonce) + " hash : " + self.hash)
+                return True
+            
+            self.nonce += 1
