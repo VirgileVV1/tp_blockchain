@@ -73,12 +73,19 @@ class BlockChain:
                 return False
             
         return True
+    
+    def __str__(self):
+        block_chain = ""
+        for i in range(0, len(self.blocks)):
+            block_chain = block_chain + str(self.blocks[i]) + "\n"
+                            
+        return block_chain
         
         
         
 block_chain = BlockChain()
 block_chain.next_block("Block de test")
-print(block_chain.blocks[-1])
+print(block_chain)
 
 print(block_chain.is_valid_blockchain())
 
