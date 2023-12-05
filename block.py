@@ -6,11 +6,20 @@ Created on Tue Dec  5 09:28:06 2023
 
 import hashlib
 
+from datetime import datetime
+
 class Block:
     
-    def __init__(self, previous_block, transaction_list):
-        self.previous_block = previous_block
-        self.transaction_list = transaction_list
-        
-        self.data = 
-        self.hash = hashlib.sha256(self.data).hexdigest()
+    def __init__(self, index, previous_hash, data):
+        self.index = index
+        self.previous_hash = previous_hash
+        self.date = datetime.now().strftime("%A %d %B %Y a %H:%M:%S")
+        self.data = data
+        self.hash = hashlib.sha256(
+            ((str(self.index) 
+                 + self.date 
+                 + self.data 
+                 + str(self.previous_hash)).encode())).hexdigest()
+           
+    def __str__(self):
+        return f"Block {self.index} créé le {self.date} contenant : {self.data}"                     
