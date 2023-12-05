@@ -30,11 +30,7 @@ class BlockChain:
             print("Hash précédent incorrect")
             return False
         
-        block_hash = hashlib.sha256(
-            ((str(block.index) 
-                 + block.date 
-                 + block.data 
-                 + str(block.previous_hash)).encode())).hexdigest()
+        block_hash = block.calculate_hash()
         if block.hash != block_hash:
             print("Hash invalide")
             return False
@@ -52,11 +48,7 @@ class BlockChain:
             print("Hash précédent incorrect")
             return False
         
-        block_hash = hashlib.sha256(
-            ((str(genesis_block.index) 
-                 + genesis_block.date 
-                 + genesis_block.data 
-                 + str(genesis_block.previous_hash)).encode())).hexdigest()
+        block_hash = genesis_block.calculate_hash()
         if genesis_block.hash != block_hash:
             print("Hash invalide")
             return False
