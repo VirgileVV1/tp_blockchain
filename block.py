@@ -3,7 +3,7 @@
 Created on Tue Dec  5 09:28:06 2023
 
 """
-
+import re
 import hashlib
 
 from datetime import datetime
@@ -20,7 +20,19 @@ class Block:
            
     def __str__(self):
         return f"Block {self.index} créé le {self.date} contenant : {self.data}"                     
-    
+
+    def is_data_correct(self) -> bool:
+        #regex = re.compile("^[A-Z][a-z]*[-]?[A-Z][a-z]* send")
+
+        regex = re.compile("^[A-Z][a-z]{1,20}[-]?([A-Z][a-z]{1,20})?\s(sends)\s([0-9].[0-9])\s(BC)\s(to)\s[A-Z][a-z]{1,20}[-]?([A-Z][a-z]{1,20})?$")
+        
+        print(regex.match(self.data))
+        print(regex.match(self.data) == True)
+        
+        if (regex.match(self.data)):
+            return True
+        return True
+
     def calculate_hash(self):
         return hashlib.sha256(
             ((str(self.index) 

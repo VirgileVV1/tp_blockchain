@@ -15,7 +15,9 @@ class BlockChain:
         
     def next_block(self, data):
         previous = self.blocks[-1]
+        # verif data
         block = Block(previous.index + 1, previous.hash, data)
+        block.is_data_correct()
         block.solve_proof_of_work()
         if self.is_valid_block(block, previous):
             self.blocks.append(block)
@@ -76,9 +78,5 @@ class BlockChain:
         
         
         
-block_chain = BlockChain()
-block_chain.next_block("Block de test")
-print(block_chain)
 
-print(block_chain.is_valid_blockchain())
 
